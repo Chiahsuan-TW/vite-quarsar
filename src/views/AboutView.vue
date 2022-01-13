@@ -1,26 +1,26 @@
 <template>
   <div class="about">
     <h1>This is an about page</h1>
-
-    <div id="q-app" style="min-height: 100vh">
-      <div class="q-pa-md">
-        <q-table
-          title="Treats"
-          :rows="rows"
-          :columns="columns"
-          row-key="name"
-        ></q-table>
-      </div>
-    </div>
+  </div>
+  <div>
+    <span>{{ count }}</span>
+    <button @click="count++">Increment count</button>
+    <button @click="nested.count.value++">Nested Increment count</button>
   </div>
 </template>
 
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
+<script>
+import { ref } from 'vue';
+export default {
+  setup() {
+    const count = ref(0);
+    return {
+      count,
+
+      nested: {
+        count
+      }
+    };
   }
-}
-</style>
+};
+</script>
