@@ -7,6 +7,7 @@
         <router-link to="/">Home</router-link>
         <router-link to="/about">About</router-link>
         <router-link to="/script">script</router-link>
+        <router-link to="/add">新增報修</router-link>
       </nav>
     </div>
   </header>
@@ -25,4 +26,12 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+a {
+  text-decoration: none;
+
+  & + a {
+    margin-left: 10px;
+  }
+}
+</style>
