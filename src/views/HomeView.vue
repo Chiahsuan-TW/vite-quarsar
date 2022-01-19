@@ -1,115 +1,39 @@
-<script setup></script>
+<script setup>
+import { issueStore } from '@/stores/issueStore.js';
+
+const issue = issueStore();
+
+const columns = [
+  {
+    name: 'name',
+    required: true,
+    label: 'number',
+    align: 'left',
+    field: row => row.number,
+    format: val => `${val}`,
+    sortable: true
+  },
+  {
+    name: 'SN&PN',
+    label: 'SN&PN',
+    field: 'partnumber',
+    sortable: true
+  },
+  { name: 'ModelName', label: 'ModelName', field: 'type' },
+  { name: 'Agree or not', label: 'Agree or not', field: 'isPermitted' }
+];
+
+const rows = issue.issueList;
+</script>
 
 <template>
   <div class="q-pa-md">
-    <q-layout
-      view="hHh Lpr lff"
-      container
-      style="height: 100vh"
-      class="shadow-2 rounded-borders"
-    >
-      <q-header elevated class="bg-black">
-        <q-toolbar>
-          <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
-          <q-toolbar-title>Header</q-toolbar-title>
-          <q-btn round icon="message" />
-          <q-btn round icon="edit" />
-        </q-toolbar>
-      </q-header>
-
-      <q-footer>
-        <q-toolbar>
-          <p>copyright: Quasar</p>
-        </q-toolbar>
-      </q-footer>
-
-      <q-drawer
-        v-model="drawer"
-        show-if-above
-        :width="250"
-        :breakpoint="500"
-        bordered
-        class="bg-grey-3"
-      >
-        <q-scroll-area class="fit">
-          <q-list>
-            <template v-for="(menuItem, index) in menuList" :key="index">
-              <q-item clickable :active="menuItem.label === 'Outbox'" v-ripple>
-                <q-item-section avatar>
-                  <q-icon :name="menuItem.icon" />
-                </q-item-section>
-                <q-item-section>
-                  {{ menuItem.label }}
-                </q-item-section>
-              </q-item>
-              <q-separator :key="'sep' + index" v-if="menuItem.separator" />
-            </template>
-          </q-list>
-        </q-scroll-area>
-      </q-drawer>
-
-      <q-page-container>
-        <q-page padding>
-          <p v-for="n in 15" :key="n">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil
-            praesentium molestias a adipisci, dolore vitae odit, quidem
-            consequatur optio voluptates asperiores pariatur eos numquam rerum
-            delectus commodi perferendis voluptate?
-          </p>
-        </q-page>
-      </q-page-container>
-    </q-layout>
+    <q-table
+      title="報修表單"
+      :rows="rows"
+      :columns="columns"
+      row-key="name"
+      :rows-per-page-options="[5, 10, 15, 0]"
+    />
   </div>
 </template>
-
-<script>
-import { ref } from 'vue';
-
-const menuList = [
-  {
-    icon: 'inbox',
-    label: 'Inbox',
-    separator: true
-  },
-  {
-    icon: 'send',
-    label: 'Outbox',
-    separator: false
-  },
-  {
-    icon: 'delete',
-    label: 'Trash',
-    separator: false
-  },
-  {
-    icon: 'error',
-    label: 'Spam',
-    separator: true
-  },
-  {
-    icon: 'settings',
-    label: 'Settings',
-    separator: false
-  },
-  {
-    icon: 'feedback',
-    label: 'Send Feedback',
-    separator: false
-  },
-  {
-    icon: 'help',
-    iconColor: 'primary',
-    label: 'Help',
-    separator: false
-  }
-];
-
-export default {
-  setup() {
-    return {
-      drawer: ref(false),
-      menuList
-    };
-  }
-};
-</script>

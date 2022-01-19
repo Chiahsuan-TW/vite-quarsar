@@ -1,12 +1,22 @@
 <script setup>
 import { ref } from 'vue';
 import { Field, Form } from 'vee-validate';
+import QInputComponent from '@/components/QInputComponent.vue';
 import * as yup from 'yup';
 
-// 純 Qarsar 要記錄輸入值
-// const name = ref('');
-// const tel = ref('');
-// const gender = ref('');
+const inputList = [
+  { label: '姓名', name: 'fullname', placeholder: 'Harry Potter' },
+  {
+    label: '電話',
+    name: 'phone',
+    placeholder: '02-2334561'
+  },
+  {
+    label: '信箱',
+    name: 'email',
+    placeholder: 'example@gmail.com'
+  }
+];
 
 const group = ref(null);
 
@@ -19,7 +29,7 @@ const options = [
 const phoneRegex = /^\(?([0-9]{2})\)?[- ]?([0-9]{7})$/;
 const schema = yup.object({
   fullname: yup.string().trim().required(),
-  telephone: yup
+  phone: yup
     .string()
     .trim()
     .matches(phoneRegex, '電話格式不正確喔!')
@@ -32,10 +42,6 @@ function onSubmit(values, actions) {
   console.log(JSON.stringify(values));
   actions.resetForm();
 }
-
-// const initialValues = {
-//   terms: false
-// };
 </script>
 
 <template>
@@ -54,39 +60,8 @@ password（明碼與密碼切換）
 大頭貼（可預覽）
 submit 跟 reset-->
 
-  <!--只用Quasar，沒有驗證功能-->
-  <!-- <div class="q-pa-md" style="max-width: 400px">
-    <q-form>
-      <q-input outlined v-model="name" label="姓名" />
-
-      <q-input color="primary-12" v-model="tel" label="電話">
-        <template v-slot:prepend>
-          <q-icon name="phone" />
-        </template>
-      </q-input>
-
-      <div class="q-gutter-md">
-        <q-radio v-model="gender" val="female" label="女性" />
-        <q-radio v-model="gender" val="male" label="男性" />
-        <q-radio v-model="gender" val="bisexual" label="雙性" />
-      </div>
-    </q-form>
-  </div> -->
-
   <Form :validation-schema="schema" @submit="onSubmit">
-    <Field name="fullname" v-slot="{ errorMessage, value, field }">
-      <q-input
-        outlined
-        label="姓名"
-        v-bind="field"
-        placeholder="Noel Gallenger"
-        :model-value="value"
-        :error="!!errorMessage"
-        :error-message="errorMessage"
-      />
-    </Field>
-
-    <Field name="telephone" v-slot="{ errorMessage, value, field }">
+    <!-- <Field name="telephone" v-slot="{ errorMessage, value, field }">
       <q-input
         color="primary-12"
         label="電話"
@@ -114,20 +89,26 @@ submit 跟 reset-->
           <q-icon name="email" color="secondary" />
         </template>
       </q-input>
-    </Field>
+    </Field> -->
 
+    <QInputComponent
+      v-for="(input, index) in inputList"
+      :key="index"
+      :input="input"
+    />
     <!--問題1: 不選的時候不能送出但沒有錯誤訊息-->
     <!--問題2: 送出後選項不會清除-->
+    <!--option group外層包 q-field -->
     <Field name="gender" v-slot="{ errorMessage, field }">
-      <q-option-group
-        inline
-        :options="options"
-        type="radio"
-        v-model="group"
-        v-bind="field"
-        :error="!!errorMessage"
-        :error-message="errorMessage"
-      />
+      <q-field :error="!!errorMessage" :error-message="errorMessage">
+        <q-option-group
+          inline
+          :options="options"
+          type="radio"
+          v-model="group"
+          v-bind="field"
+        />
+      </q-field>
     </Field>
 
     <q-btn class="q-mt-md" color="primary" type="submit" label="Submit" />

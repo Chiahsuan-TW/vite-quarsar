@@ -4,9 +4,9 @@
   <header>
     <div class="wrapper">
       <nav>
-        <router-link to="/">Home</router-link>
-        <router-link to="/about">About</router-link>
-        <router-link to="/script">script</router-link>
+        <router-link to="/">QTable</router-link>
+        <router-link to="/about">Vee-Validate Composition API</router-link>
+        <router-link to="/script">script setup</router-link>
         <router-link to="/add">新增報修</router-link>
       </nav>
     </div>
@@ -26,9 +26,17 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+nav {
+  width: fit-content;
+  margin: 0 auto;
+}
+
 a {
+  display: inline-block;
   text-decoration: none;
+  padding: 10px;
+  outline: 1px dashed burlywood;
 
   & + a {
     margin-left: 10px;

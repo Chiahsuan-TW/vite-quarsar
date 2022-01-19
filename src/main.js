@@ -6,6 +6,7 @@ import App from './App.vue';
 import pinia from './plugins/pinia';
 import router from './plugins/vue-router';
 import quasar from './plugins/quasar';
+import './plugins/yup-setup';
 
 const app = createApp(App);
 
